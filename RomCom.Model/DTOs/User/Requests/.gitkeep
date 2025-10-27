@@ -1,0 +1,9 @@
+# User Request DTOs
+
+Add user management request DTOs here:
+- CreateUserRequestDto.cs
+- UpdateUserProfileRequestDto.cs
+- UpdateUserSettingsRequestDto.cs
+- ChangeEmailRequestDto.cs
+- etc.
+

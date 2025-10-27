@@ -228,8 +228,14 @@ RomCom/
 │       ├── Provider/              # Database providers
 │       └── DTOs/                  # Data transfer objects
 ├── RomCom.Model/                  # Data Models Layer
-│   ├── ViewModels/                # API view models
-│   └── DTOs/                      # Data transfer objects
+│   ├── DTOs/                      # API request/response DTOs
+│   │   ├── Auth/                  # Authentication DTOs
+│   │   │   ├── Requests/          # Login, ChangePassword, etc.
+│   │   │   └── Responses/         # AuthDto, TokenResponse, etc.
+│   │   ├── User/                  # User management DTOs (future)
+│   │   ├── Post/                  # Post/Content DTOs (future)
+│   │   └── ...                    # Other feature DTOs
+│   └── Enums/                     # Model enumerations
 └── RomCom.Common/                 # Shared Utilities
     ├── ServiceInstallers/         # Auto-registration system
     │   ├── Attributes/            # Service attributes

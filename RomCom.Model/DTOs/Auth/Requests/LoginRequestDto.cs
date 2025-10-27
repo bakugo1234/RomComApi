@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RomCom.Model.ViewModels
+namespace RomCom.Model.DTOs.Auth.Requests
 {
-    public class UserCredentials
+    public class LoginRequestDto
     {
         [Required(ErrorMessage = "Username or Email is required")]
         public required string UserName { get; set; }

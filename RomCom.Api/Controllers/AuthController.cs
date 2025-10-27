@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RomCom.Api.Controllers.Base;
-using RomCom.Model.ViewModels;
+using RomCom.Model.DTOs.Auth.Requests;
 using RomCom.Service.Services.Contracts;
 using RomCom.Repository.Setup.Contract;
 
@@ -26,7 +26,7 @@ namespace RomCom.Api.Controllers
         /// <returns>JWT token and user information</returns>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] UserCredentials credentials)
+        public async Task<IActionResult> Login([FromBody] LoginRequestDto credentials)
         {
             var result = await _loginService.Login(credentials);
             return Ok(result);
@@ -39,7 +39,7 @@ namespace RomCom.Api.Controllers
         /// <returns>New JWT token</returns>
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenModel model)
+        public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequestDto model)
         {
             var result = await _loginService.RefreshToken(model);
             return Ok(result);
@@ -51,7 +51,7 @@ namespace RomCom.Api.Controllers
         /// <param name="model">Password change details</param>
         /// <returns>Success status</returns>
         [HttpPost]
-        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequestDto model)
         {
             var userName = GetUserName();
             var result = await _loginService.ChangePassword(model, userName);

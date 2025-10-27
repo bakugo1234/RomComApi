@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace RomCom.Model.ViewModels
+namespace RomCom.Model.DTOs.Auth.Requests
 {
-    public class ChangePasswordViewModel
+    public class ChangePasswordRequestDto
     {
         [Required]
         public required string OldPassword { get; set; }

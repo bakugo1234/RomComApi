@@ -1,15 +1,15 @@
 using System;
 using System.Threading.Tasks;
-using RomCom.Model.ViewModels;
+using RomCom.Model.DTOs.Auth.Responses;
 using RomCom.Repository.Setup.DTOs;
 
 namespace RomCom.Repository.Repositories.Contracts
 {
     public interface IAuthRepository
     {
-        Task<AuthViewModel> ValidateUser(string userName, string passwordHash);
-        Task<AuthViewModel> GetUserById(int userId);
-        Task<AuthViewModel> GetUserByUserName(string userName);
+        Task<AuthDto> ValidateUser(string userName, string passwordHash);
+        Task<AuthDto> GetUserById(int userId);
+        Task<AuthDto> GetUserByUserName(string userName);
         Task<int> CreateUser(CreateUserDto dto);
         Task<bool> UpdatePassword(int userId, string passwordHash);
         Task<bool> UpdateLastLogin(int userId, DateTimeOffset lastLoginDate);

@@ -8,7 +8,8 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using RomCom.Model.ViewModels;
+using RomCom.Model.DTOs.Auth.Requests;
+using RomCom.Model.DTOs.Auth.Responses;
 using RomCom.Service.Data.Model.Contract;
 using RomCom.Service.Services.Contracts;
 using RomCom.Service.Setup.Global;
@@ -38,7 +39,7 @@ namespace RomCom.Service.Services
             _errorResponse = _globalLogic.BuildServiceResult(errorResult, false);
         }
 
-        public async Task<IServiceResult> Login(UserCredentials credentials)
+        public async Task<IServiceResult> Login(LoginRequestDto credentials)
         {
             try
             {
@@ -66,7 +67,7 @@ namespace RomCom.Service.Services
                 var token = GenerateJwtToken(user);
                 var refreshToken = GenerateRefreshToken();
 
-                var response = new TokenResponse
+                var response = new TokenResponseDto
                 {
                     Token = token,
                     RefreshToken = refreshToken,
@@ -84,7 +85,7 @@ namespace RomCom.Service.Services
             }
         }
 
-        public async Task<IServiceResult> RefreshToken(RefreshTokenModel model)
+        public async Task<IServiceResult> RefreshToken(RefreshTokenRequestDto model)
         {
             try
             {
@@ -101,7 +102,7 @@ namespace RomCom.Service.Services
             }
         }
 
-        public async Task<IServiceResult> ChangePassword(ChangePasswordViewModel model, string userName)
+        public async Task<IServiceResult> ChangePassword(ChangePasswordRequestDto model, string userName)
         {
             try
             {
@@ -145,7 +146,7 @@ namespace RomCom.Service.Services
             }
         }
 
-        private string GenerateJwtToken(AuthViewModel user)
+        private string GenerateJwtToken(AuthDto user)
         {
             var jwtSecret = _configuration["AppSettings:JWTSecret"] ?? "your-secret-key-min-32-characters-long-for-security";
             var tokenExpiryHours = int.Parse(_configuration["AppSettings:TokenExpiryHours"] ?? "24");

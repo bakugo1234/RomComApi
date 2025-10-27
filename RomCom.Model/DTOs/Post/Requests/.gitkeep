@@ -1,0 +1,10 @@
+# Post Request DTOs
+
+Add post/content request DTOs here:
+- CreatePostRequestDto.cs
+- UpdatePostRequestDto.cs
+- DeletePostRequestDto.cs
+- LikePostRequestDto.cs
+- CommentPostRequestDto.cs
+- etc.
+

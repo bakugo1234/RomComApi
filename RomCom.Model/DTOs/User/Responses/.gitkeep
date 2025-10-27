@@ -1,0 +1,9 @@
+# User Response DTOs
+
+Add user management response DTOs here:
+- UserProfileDto.cs
+- UserListDto.cs
+- UserDetailDto.cs
+- UserSettingsDto.cs
+- etc.
+

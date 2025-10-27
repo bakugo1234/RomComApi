@@ -1,8 +1,8 @@
 using System;
 
-namespace RomCom.Model.ViewModels
+namespace RomCom.Model.DTOs.Auth.Responses
 {
-    public class AuthViewModel
+    public class AuthDto
     {
         public required int id { get; set; }
         public required string userName { get; set; }

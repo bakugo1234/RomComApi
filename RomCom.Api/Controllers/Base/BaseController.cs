@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using RomCom.Model.ViewModels;
+using RomCom.Model.DTOs.Auth.Responses;
 using System.Security.Claims;
 
 namespace RomCom.Api.Controllers.Base
@@ -11,7 +11,7 @@ namespace RomCom.Api.Controllers.Base
     [Route("api/[controller]/[Action]")]
     public class BaseController : ControllerBase
     {
-        protected AuthViewModel GetUser()
+        protected AuthDto GetUser()
         {
             ClaimsPrincipal user = User;
             var userDataClaim = user.FindFirstValue(ClaimTypes.UserData);
@@ -21,8 +21,8 @@ namespace RomCom.Api.Controllers.Base
                 return null;
             }
 
-            var authViewModel = JsonConvert.DeserializeObject<AuthViewModel>(userDataClaim);
-            return authViewModel;
+            var authDto = JsonConvert.DeserializeObject<AuthDto>(userDataClaim);
+            return authDto;
         }
 
         protected int GetUserId()

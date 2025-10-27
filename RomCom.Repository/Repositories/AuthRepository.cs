@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using RomCom.Common.Enums;
 using RomCom.Common.ServiceInstallers.Attributes;
-using RomCom.Model.ViewModels;
+using RomCom.Model.DTOs.Auth.Responses;
 using RomCom.Repository.Repositories.Contracts;
 using RomCom.Repository.Setup.Contract;
 using RomCom.Repository.Setup.DTOs;
@@ -19,27 +19,27 @@ namespace RomCom.Repository.Repositories
             _dbProvider = dbProvider;
         }
 
-        public async Task<AuthViewModel> ValidateUser(string userName, string passwordHash)
+        public async Task<AuthDto> ValidateUser(string userName, string passwordHash)
         {
-            return await _dbProvider.ExecuteFirstAsync<AuthViewModel>(
+            return await _dbProvider.ExecuteFirstAsync<AuthDto>(
                 "auth.sp_Auth_ValidateUser",
                 new { UserName = userName, PasswordHash = passwordHash },
                 System.Data.CommandType.StoredProcedure,
                 Region.Default);
         }
 
-        public async Task<AuthViewModel> GetUserById(int userId)
+        public async Task<AuthDto> GetUserById(int userId)
         {
-            return await _dbProvider.ExecuteFirstAsync<AuthViewModel>(
+            return await _dbProvider.ExecuteFirstAsync<AuthDto>(
                 "auth.sp_Auth_GetUserById",
                 new { UserId = userId },
                 System.Data.CommandType.StoredProcedure,
                 Region.Default);
         }
 
-        public async Task<AuthViewModel> GetUserByUserName(string userName)
+        public async Task<AuthDto> GetUserByUserName(string userName)
         {
-            return await _dbProvider.ExecuteFirstAsync<AuthViewModel>(
+            return await _dbProvider.ExecuteFirstAsync<AuthDto>(
                 "auth.sp_Auth_GetUserByUserName",
                 new { UserName = userName },
                 System.Data.CommandType.StoredProcedure,

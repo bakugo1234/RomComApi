@@ -1,0 +1,10 @@
+# Post Response DTOs
+
+Add post/content response DTOs here:
+- PostDto.cs
+- PostListResponseDto.cs
+- PostDetailDto.cs
+- CommentDto.cs
+- PostStatsDto.cs
+- etc.
+
