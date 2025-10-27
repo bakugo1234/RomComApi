@@ -61,7 +61,7 @@ namespace RomCom.Service.Services
                 }
 
                 // Update last login date
-                await _authRepository.UpdateLastLogin(user.id, DateTime.UtcNow);
+                await _authRepository.UpdateLastLogin(user.id, DateTimeOffset.UtcNow);
 
                 var token = GenerateJwtToken(user);
                 var refreshToken = GenerateRefreshToken();
@@ -70,7 +70,7 @@ namespace RomCom.Service.Services
                 {
                     Token = token,
                     RefreshToken = refreshToken,
-                    ExpiresAt = DateTime.UtcNow.AddHours(24),
+                    ExpiresAt = DateTimeOffset.UtcNow.AddHours(24),
                     User = user
                 };
 
@@ -165,7 +165,7 @@ namespace RomCom.Service.Services
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddHours(tokenExpiryHours),
+                Expires = DateTimeOffset.UtcNow.AddHours(tokenExpiryHours).DateTime,
                 SigningCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)

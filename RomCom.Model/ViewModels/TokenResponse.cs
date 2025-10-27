@@ -4,10 +4,10 @@ namespace RomCom.Model.ViewModels
 {
     public class TokenResponse
     {
-        public string Token { get; set; }
-        public string RefreshToken { get; set; }
-        public DateTime ExpiresAt { get; set; }
-        public AuthViewModel User { get; set; }
+        public required string Token { get; set; }
+        public required string RefreshToken { get; set; }
+        public required DateTimeOffset ExpiresAt { get; set; }
+        public required AuthViewModel User { get; set; }
     }
 }
 

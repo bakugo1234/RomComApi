@@ -12,7 +12,7 @@ namespace RomCom.Repository.Repositories.Contracts
         Task<AuthViewModel> GetUserByUserName(string userName);
         Task<int> CreateUser(CreateUserDto dto);
         Task<bool> UpdatePassword(int userId, string passwordHash);
-        Task<bool> UpdateLastLogin(int userId, DateTime lastLoginDate);
+        Task<bool> UpdateLastLogin(int userId, DateTimeOffset lastLoginDate);
         Task<string> GetPasswordHash(int userId);
         
         // Refresh Token Methods

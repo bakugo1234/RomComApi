@@ -62,7 +62,7 @@ namespace RomCom.Repository.Repositories
                 new { 
                     UserId = userId, 
                     PasswordHash = passwordHash,
-                    ModifiedDate = DateTime.UtcNow 
+                    ModifiedDate = DateTimeOffset.UtcNow 
                 },
                 System.Data.CommandType.StoredProcedure,
                 Region.Default);
@@ -70,7 +70,7 @@ namespace RomCom.Repository.Repositories
             return rowsAffected > 0;
         }
 
-        public async Task<bool> UpdateLastLogin(int userId, DateTime lastLoginDate)
+        public async Task<bool> UpdateLastLogin(int userId, DateTimeOffset lastLoginDate)
         {
             var rowsAffected = await _dbProvider.ExecuteAsync(
                 "auth.sp_Auth_UpdateLastLogin",
@@ -114,7 +114,7 @@ namespace RomCom.Repository.Repositories
         {
             var rowsAffected = await _dbProvider.ExecuteAsync(
                 "auth.sp_Auth_InvalidateRefreshToken",
-                new { Token = refreshToken, RevokedDate = DateTime.UtcNow },
+                new { Token = refreshToken, RevokedDate = DateTimeOffset.UtcNow },
                 System.Data.CommandType.StoredProcedure,
                 Region.Default);
 
@@ -125,7 +125,7 @@ namespace RomCom.Repository.Repositories
         {
             var rowsAffected = await _dbProvider.ExecuteAsync(
                 "auth.sp_Auth_InvalidateAllUserRefreshTokens",
-                new { UserId = userId, RevokedDate = DateTime.UtcNow },
+                new { UserId = userId, RevokedDate = DateTimeOffset.UtcNow },
                 System.Data.CommandType.StoredProcedure,
                 Region.Default);
 

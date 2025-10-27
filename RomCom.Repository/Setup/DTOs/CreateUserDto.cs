@@ -4,14 +4,14 @@ namespace RomCom.Repository.Setup.DTOs
 {
     public class CreateUserDto
     {
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string PasswordHash { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public int RoleId { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public int CreatedBy { get; set; }
+        public required string UserName { get; set; }
+        public required string Email { get; set; }
+        public required string PasswordHash { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public required int RoleId { get; set; }
+        public required DateTimeOffset CreatedDate { get; set; }
+        public required int CreatedBy { get; set; }
     }
 }
 

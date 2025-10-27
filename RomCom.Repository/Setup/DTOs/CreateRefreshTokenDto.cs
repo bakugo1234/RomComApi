@@ -4,10 +4,10 @@ namespace RomCom.Repository.Setup.DTOs
 {
     public class CreateRefreshTokenDto
     {
-        public int UserId { get; set; }
-        public string Token { get; set; }
-        public DateTime ExpiresAt { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public required int UserId { get; set; }
+        public required string Token { get; set; }
+        public required DateTimeOffset ExpiresAt { get; set; }
+        public required DateTimeOffset CreatedDate { get; set; }
     }
 }
 
