@@ -61,11 +61,8 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Configure database connection
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 // Register repository services
-builder.Services.AddSingleton<IConnectionProvider>(provider => new ConnectionProvider(connectionString));
+builder.Services.AddSingleton<IConnectionProvider>(provider => new ConnectionProvider(builder.Configuration));
 builder.Services.AddScoped<IDbProvider, DbProvider>();
 
 // Auto-register all services with attributes (Scoped, Transient, Singleton)

@@ -2,6 +2,7 @@ namespace RomCom.Common.Enums
 {
     public enum Region
     {
-        Default = 1
+        Master = 1,
+        Main = 2
     }
 }

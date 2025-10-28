@@ -1,0 +1,68 @@
+### Test Authentication
+POST https://localhost:7000/api/Auth/Login
+Content-Type: application/json
+
+{
+  "userName": "admin",
+  "password": "admin123"
+}
+
+### Test User Profile
+GET https://localhost:7000/api/User/GetProfile
+Authorization: Bearer {{token}}
+
+### Test Create User
+POST https://localhost:7000/api/User/CreateUser
+Content-Type: application/json
+
+{
+  "userName": "testuser",
+  "email": "test@example.com",
+  "password": "password123",
+  "firstName": "Test",
+  "lastName": "User"
+}
+
+### Test Search Users
+GET https://localhost:7000/api/User/SearchUsers?searchTerm=test&page=1&pageSize=10
+Authorization: Bearer {{token}}
+
+### Test Create Post
+POST https://localhost:7000/api/Post/CreatePost
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "This is my first post!",
+  "mediaType": "none"
+}
+
+### Test Get User Feed
+GET https://localhost:7000/api/Post/GetUserFeed?page=1&pageSize=10
+Authorization: Bearer {{token}}
+
+### Test Create Group
+POST https://localhost:7000/api/Group/CreateGroup
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "groupName": "Test Group",
+  "description": "This is a test group",
+  "isPrivate": false
+}
+
+### Test Get User Groups
+GET https://localhost:7000/api/Group/GetMyGroups?page=1&pageSize=10
+Authorization: Bearer {{token}}
+
+### Test Dashboard Overview
+GET https://localhost:7000/api/Dashboard/GetOverview
+Authorization: Bearer {{token}}
+
+### Test Dashboard Statistics
+GET https://localhost:7000/api/Dashboard/GetStatistics
+Authorization: Bearer {{token}}
+
+### Test Database Health Check
+GET https://localhost:7000/api/Auth/health/database

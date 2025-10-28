@@ -25,7 +25,7 @@ namespace RomCom.Repository.Repositories
                 "auth.sp_Auth_ValidateUser",
                 new { UserName = userName, PasswordHash = passwordHash },
                 System.Data.CommandType.StoredProcedure,
-                Region.Default);
+                Region.Master);
         }
 
         public async Task<AuthDto> GetUserById(int userId)
@@ -34,7 +34,7 @@ namespace RomCom.Repository.Repositories
                 "auth.sp_Auth_GetUserById",
                 new { UserId = userId },
                 System.Data.CommandType.StoredProcedure,
-                Region.Default);
+                Region.Master);
         }
 
         public async Task<AuthDto> GetUserByUserName(string userName)
@@ -43,7 +43,7 @@ namespace RomCom.Repository.Repositories
                 "auth.sp_Auth_GetUserByUserName",
                 new { UserName = userName },
                 System.Data.CommandType.StoredProcedure,
-                Region.Default);
+                Region.Master);
         }
 
         public async Task<int> CreateUser(CreateUserDto dto)
@@ -52,7 +52,7 @@ namespace RomCom.Repository.Repositories
                 "auth.sp_Auth_CreateUser",
                 dto,
                 System.Data.CommandType.StoredProcedure,
-                Region.Default);
+                Region.Master);
         }
 
         public async Task<bool> UpdatePassword(int userId, string passwordHash)
@@ -65,7 +65,7 @@ namespace RomCom.Repository.Repositories
                     ModifiedDate = DateTimeOffset.UtcNow 
                 },
                 System.Data.CommandType.StoredProcedure,
-                Region.Default);
+                Region.Master);
 
             return rowsAffected > 0;
         }
@@ -76,7 +76,7 @@ namespace RomCom.Repository.Repositories
                 "auth.sp_Auth_UpdateLastLogin",
                 new { UserId = userId, LastLoginDate = lastLoginDate },
                 System.Data.CommandType.StoredProcedure,
-                Region.Default);
+                Region.Master);
 
             return rowsAffected > 0;
         }
@@ -87,7 +87,7 @@ namespace RomCom.Repository.Repositories
                 "auth.sp_Auth_GetPasswordHash",
                 new { UserId = userId },
                 System.Data.CommandType.StoredProcedure,
-                Region.Default);
+                Region.Master);
         }
 
         #region Refresh Token Methods
@@ -98,7 +98,7 @@ namespace RomCom.Repository.Repositories
                 "auth.sp_Auth_CreateRefreshToken",
                 dto,
                 System.Data.CommandType.StoredProcedure,
-                Region.Default);
+                Region.Master);
         }
 
         public async Task<RefreshTokenDto> GetRefreshToken(string refreshToken)
@@ -107,7 +107,7 @@ namespace RomCom.Repository.Repositories
                 "auth.sp_Auth_GetRefreshToken",
                 new { Token = refreshToken },
                 System.Data.CommandType.StoredProcedure,
-                Region.Default);
+                Region.Master);
         }
 
         public async Task<bool> InvalidateRefreshToken(string refreshToken)
@@ -116,7 +116,7 @@ namespace RomCom.Repository.Repositories
                 "auth.sp_Auth_InvalidateRefreshToken",
                 new { Token = refreshToken, RevokedDate = DateTimeOffset.UtcNow },
                 System.Data.CommandType.StoredProcedure,
-                Region.Default);
+                Region.Master);
 
             return rowsAffected > 0;
         }
@@ -127,7 +127,7 @@ namespace RomCom.Repository.Repositories
                 "auth.sp_Auth_InvalidateAllUserRefreshTokens",
                 new { UserId = userId, RevokedDate = DateTimeOffset.UtcNow },
                 System.Data.CommandType.StoredProcedure,
-                Region.Default);
+                Region.Master);
 
             return rowsAffected > 0;
         }
