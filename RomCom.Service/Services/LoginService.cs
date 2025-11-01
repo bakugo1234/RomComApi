@@ -15,6 +15,7 @@ using RomCom.Service.Services.Contracts;
 using RomCom.Service.Setup.Global;
 using RomCom.Common.ServiceInstallers.Attributes;
 using RomCom.Repository.Repositories.Contracts;
+using RomCom.Repository.Setup.DTOs;
 
 namespace RomCom.Service.Services
 {
