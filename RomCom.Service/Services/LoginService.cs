@@ -68,6 +68,15 @@ namespace RomCom.Service.Services
                 var token = GenerateJwtToken(user);
                 var refreshToken = GenerateRefreshToken();
 
+                // Store refresh token in database
+                await _authRepository.CreateRefreshToken(new CreateRefreshTokenDto
+                {
+                    UserId = user.id,
+                    Token = refreshToken,
+                    ExpiresAt = DateTimeOffset.UtcNow.AddDays(30),
+                    CreatedDate = DateTimeOffset.UtcNow
+                });
+
                 var response = new TokenResponseDto
                 {
                     Token = token,
