@@ -168,11 +168,79 @@ namespace RomCom.Service.Services
         {
             try
             {
-                // TODO: Implement password change logic
-                // Validate old password and update with new password
-                
-                _errorResponse.Message = "Change password implementation pending";
-                return _errorResponse;
+                // 1. Validate Input
+                if (string.IsNullOrWhiteSpace(userName))
+                {
+                    _errorResponse.Message = "User name is required";
+                    return _errorResponse;
+                }
+
+                if (string.IsNullOrWhiteSpace(model.OldPassword))
+                {
+                    _errorResponse.Message = "Current password is required";
+                    return _errorResponse;
+                }
+
+                if (string.IsNullOrWhiteSpace(model.NewPassword))
+                {
+                    _errorResponse.Message = "New password is required";
+                    return _errorResponse;
+                }
+
+                if (model.NewPassword.Length < 6)
+                {
+                    _errorResponse.Message = "Password must be at least 6 characters";
+                    return _errorResponse;
+                }
+
+                if (model.NewPassword != model.ConfirmPassword)
+                {
+                    _errorResponse.Message = "Passwords do not match";
+                    return _errorResponse;
+                }
+
+                if (model.OldPassword == model.NewPassword)
+                {
+                    _errorResponse.Message = "New password must be different from current password";
+                    return _errorResponse;
+                }
+
+                // 2. Get User
+                var user = await _authRepository.GetUserByUserName(userName);
+
+                if (user == null)
+                {
+                    _errorResponse.Message = "User not found";
+                    return _errorResponse;
+                }
+
+                // 3. Verify Old Password
+                var hashedOldPassword = HashPassword(model.OldPassword);
+                var storedPasswordHash = await _authRepository.GetPasswordHash(user.id);
+
+                if (hashedOldPassword != storedPasswordHash)
+                {
+                    _errorResponse.Message = "Current password is incorrect";
+                    return _errorResponse;
+                }
+
+                // 4. Update Password
+                var hashedNewPassword = HashPassword(model.NewPassword);
+                var updateSuccess = await _authRepository.UpdatePassword(user.id, hashedNewPassword);
+
+                if (!updateSuccess)
+                {
+                    _errorResponse.Message = "Failed to update password";
+                    return _errorResponse;
+                }
+
+                // 5. Invalidate All Refresh Tokens (Security Best Practice)
+                // This forces user to re-login on all devices after password change
+                await _authRepository.InvalidateAllUserRefreshTokens(user.id);
+
+                // 6. Return Success Response
+                _successResponse.ResultData = true;
+                return _successResponse;
             }
             catch (Exception ex)
             {
