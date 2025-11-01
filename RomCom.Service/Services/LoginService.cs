@@ -253,9 +253,18 @@ namespace RomCom.Service.Services
         {
             try
             {
-                // TODO: Implement logout logic
-                // Invalidate refresh tokens for the user
-                
+                // 1. Validate Input
+                if (userId <= 0)
+                {
+                    _errorResponse.Message = "Invalid user ID";
+                    return _errorResponse;
+                }
+
+                // 2. Invalidate All User Refresh Tokens
+                // This revokes all refresh tokens for the user (logs them out from all devices)
+                await _authRepository.InvalidateAllUserRefreshTokens(userId);
+
+                // 3. Return Success Response
                 _successResponse.ResultData = true;
                 return _successResponse;
             }
