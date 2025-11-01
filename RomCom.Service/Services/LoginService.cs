@@ -90,11 +90,72 @@ namespace RomCom.Service.Services
         {
             try
             {
-                // TODO: Implement refresh token validation logic
-                // Validate the refresh token from database
-                
-                _errorResponse.Message = "Refresh token implementation pending";
-                return _errorResponse;
+                // 1. Validate Input
+                if (string.IsNullOrWhiteSpace(model.RefreshToken))
+                {
+                    _errorResponse.Message = "Refresh token is required";
+                    return _errorResponse;
+                }
+
+                // 2. Retrieve Token from Database
+                var tokenData = await _authRepository.GetRefreshToken(model.RefreshToken);
+
+                if (tokenData == null)
+                {
+                    _errorResponse.Message = "Invalid refresh token";
+                    return _errorResponse;
+                }
+
+                // 3. Validate Token Status
+                if (tokenData.IsRevoked)
+                {
+                    _errorResponse.Message = "Refresh token has been revoked";
+                    return _errorResponse;
+                }
+
+                if (tokenData.ExpiresAt < DateTimeOffset.UtcNow)
+                {
+                    _errorResponse.Message = "Refresh token has expired";
+                    return _errorResponse;
+                }
+
+                // 4. Get User Information
+                var user = await _authRepository.GetUserById(tokenData.UserId);
+
+                if (user == null)
+                {
+                    _errorResponse.Message = "User not found or inactive";
+                    return _errorResponse;
+                }
+
+                // 5. Rotate Refresh Token (Security Best Practice)
+                // Invalidate old refresh token
+                await _authRepository.InvalidateRefreshToken(model.RefreshToken);
+
+                // Generate new tokens
+                var newJwtToken = GenerateJwtToken(user);
+                var newRefreshToken = GenerateRefreshToken();
+
+                // Store new refresh token in database
+                await _authRepository.CreateRefreshToken(new CreateRefreshTokenDto
+                {
+                    UserId = user.id,
+                    Token = newRefreshToken,
+                    ExpiresAt = DateTimeOffset.UtcNow.AddDays(30),
+                    CreatedDate = DateTimeOffset.UtcNow
+                });
+
+                // 6. Return Success Response
+                var response = new TokenResponseDto
+                {
+                    Token = newJwtToken,
+                    RefreshToken = newRefreshToken,
+                    ExpiresAt = DateTimeOffset.UtcNow.AddHours(24),
+                    User = user
+                };
+
+                _successResponse.ResultData = response;
+                return _successResponse;
             }
             catch (Exception ex)
             {
